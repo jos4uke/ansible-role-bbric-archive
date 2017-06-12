@@ -1,0 +1,10 @@
+Include {{ bbric_archive_root_dir }}/site/cfg/apache.cfg
+
+<Directory "{{ bbric_archive_root_dir }}/cgi">
+    SetHandler perl-script
+    PerlHandler ModPerl::PerlRun
+    PerlSendHeader On
+    Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+</Directory>
+
+SetEnv ARCHIVE_EXT_FTP {{ bbric_archive_ext_ftp }}
