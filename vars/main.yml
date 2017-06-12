@@ -1,2 +1,7 @@
 ---
 # vars file for ansible-role-bbric-archive
+
+bbric_ezlastic_git_repo: "https://framagit.org/BBRIC/ezlastic.git bin/ext/ezlastic"
+
+# perl installer url
+perl_cpanm_url: "http://cpanmin.us"
