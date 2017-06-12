@@ -4,6 +4,7 @@
 bbric_archive_version: "2.0"
 bbric_archive_svn_repo: "http://lipm-svn.toulouse.inra.fr/svn/inra_archive/tags/archive_v{{ bbric_archive_version }}"
 bbric_archive_root_dir: "/var/www/html"
+bbric_archive_apache_home_dir: "/var/html"
 
 bbric_archive_patch_findbin: "findbin.patch"
 bbric_archive_patch_fix_auth: "fix_auth.patch"
@@ -19,6 +20,14 @@ bbric_archive_cfg_archive_template: "archive.cfg.j2"
 
 bbric_archive_apache_conf_filename: "archive.conf"
 bbric_archive_apache_conf_template: "archive.conf.j2"
+
+bbric_archive_externaltool_hosts_entries:
+  - { ip: 147.99.102.20, name: bbric-pipelines.toulouse.inra.fr }
+  - { ip: 131.254.158.22, name: bipaa-galaxy.genouest.org }
+  - { ip: 192.168.1.169, name: bipaa-galaxy.genouest.org }
+  - { ip: 192.168.1.170, name: bipaa-galaxy.genouest.org }
+  - { ip: 192.168.1.195, name: dev-galaxy.genouest.org }
+  - { ip: 172.2.22.79, name: example.org, mount: "/export/data", aliases: { example1.org, example2.org } }
 
 #You will access to your portal using a URL = web_server.http_root
 ##Example: https://your.web.server/apache/root

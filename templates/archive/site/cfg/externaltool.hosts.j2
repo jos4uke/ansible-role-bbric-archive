@@ -1,0 +1,6 @@
+#You can add IP and hostnames/aliases for external tool access (e.g. galaxy)
+#syntax:
+#ip       hostname[:/export/mount/point]        alias1 alias2
+{% for host in bbric_archive_externaltool_hosts_entries %}
+{{ host.ip }}   {{ host.name }}{% if host.mount is defined %}:{{ host.mount | default('') }}{% endif %}    {{ host.aliases|join(" ") }}
+{% endfor %}
