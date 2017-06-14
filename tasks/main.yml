@@ -1,2 +1,26 @@
 ---
 # tasks file for ansible-role-bbric-archive
+
+# Include OS-specific variables.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+# Install dependencies.
+- name: Define archive dependency debian packages.
+  set_fact:
+    deps_packages: "{{ __deps_packages | list }}"
+  when: deps_packages is not defined
+
+- name: Define archive dependency perl modules.
+  set_fact:
+    perl_modules: "{{ __perl_modules | list }}"
+  when: perl_modules is not defined
+
+# Setup/install tasks.
+- include: "setup-deps-{{ ansible_os_family }}.yml" 
+  static: no
+
+# Clean setup tasks.
+- include: "clean-setup-{{ ansible_os_family }}.yml"
+  static: no
+

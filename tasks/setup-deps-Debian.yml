@@ -1,0 +1,17 @@
+---
+- name: Update apt cache.
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Ensure Archive dependency packages are installed on Debian.
+  apt: "name={{ item }} state={{ deps_packages_state }}"
+  with_items: "{{ deps_packages }}"
+
+- name: Ensure build dependencies packages are installed on Debian.
+  apt: "name={{ build_deps }} state=installed" 
+
+- name: Installing CPANM
+  command: cpan install App::cpanminus
+
+- name: Ensure Archive dependency perl modules are installed on Debian.
+  cpanm: "name={{ item }}"
+  with_items: "{{ perl_modules }}"

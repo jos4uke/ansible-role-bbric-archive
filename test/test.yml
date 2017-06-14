@@ -1,0 +1,31 @@
+---
+# test bbric archive role in docker
+
+- name: Bring up docker container
+  hosts: localhost
+  vars:
+    inventory:
+      - name: archive
+        image: debian:jessie
+  roles:
+    - role: provision_docker
+      provision_docker_privileged: true
+      provision_docker_inventory: "{{ inventory }}"
+      provision_docker_use_docker_connection: true
+
+- name: Install ansible managed host deps
+  hosts: docker_containers
+  gather_facts: false
+  tasks:
+    - name: Install python2 deps for Ansible
+      raw: bash -c "test -e /usr/bin/python || (apt -qqy update && apt install -qqy python-minimal python-simplejson python-apt)"
+      register: install_python_output
+      changed_when: install_python_output != ""
+
+- name: Test install BBRIC Archive deps
+  hosts: docker_containers
+  roles:
+    - role: role-bbric-archive
+
+
+
