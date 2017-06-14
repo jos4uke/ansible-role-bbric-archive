@@ -1,0 +1,16 @@
+---
+# post-setup-deps-install configuration
+
+# Symlink mail to Mail.
+- name: Symlink mail to Mail.
+  file:
+    src: /usr/bin/mail
+    dest: /usr/bin/Mail
+    state: link
+
+# Remove www-data user from at.deny.
+- name: Remove www-data user from at.deny.
+  lineinfile:
+    path: /etc/at.deny
+    regexp: '^www-data$'
+    state: absent

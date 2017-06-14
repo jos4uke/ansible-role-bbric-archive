@@ -24,3 +24,6 @@
 - include: "clean-setup-{{ ansible_os_family }}.yml"
   static: no
 
+# post-install config.
+- include: "post-install-config-{{ ansible_os_family }}.yml"
+  static: no
