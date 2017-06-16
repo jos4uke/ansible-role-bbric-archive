@@ -27,3 +27,7 @@
 # post-install config.
 - include: "post-setup-deps-install-config-{{ ansible_os_family }}.yml"
   static: no
+
+# copy files.
+- include: "copy-files.yml"
+  static: no

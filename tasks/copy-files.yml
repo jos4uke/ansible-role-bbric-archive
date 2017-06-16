@@ -1,0 +1,38 @@
+---
+# copy files needed to reconfigure and manage archive
+
+# Create bbric archive files directory.
+- name: Create bbric archive files directory.
+  file:
+    path: /opt/bbric-archive
+    state: directory
+    mode: 0660
+    owner: root
+    group: root
+
+# Copy patches into bbric archive files directory.
+- name: Copy patches into bbric archive files directory.
+  copy:
+    src: files/patches
+    dest: /opt/bbric-archive
+    mode: 0660
+    owner: root
+    group: root
+
+# Deploy miniclient.pl template into bbric archive files directory.
+- name: Create miniclient directory into bbric archive files directory. 
+  file: 
+    path: /opt/bbric-archive/miniclient
+    state: directory
+    mode: 0660
+    owner: root
+    group: root
+
+- name: Copy miniclient.pl into bbric archive files directory.
+  template:
+    src: templates/miniclient/miniclient.pl.j2
+    dest: /opt/bbric-archive/miniclient/miniclient.pl
+    owner: root
+    group: root
+    mode: '0750'    
+  
