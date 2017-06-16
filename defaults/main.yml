@@ -53,7 +53,7 @@ bbric_archive_irods_repo_type: "UNIX"
 
 # Full path to your collection rawfiles repository
 bbric_archive_rawfiles_repo: "/data"
-#bbric_archive_client_mountpoint: "/data/store"
+bbric_archive_client_mountpoint: "/data/store"
 bbric_archive_client_symlinks_dir: "/data/client"
 bbric_archive_incoming_ftp: "/data/ftp"
 bbric_archive_incoming_http: "/data/http"
