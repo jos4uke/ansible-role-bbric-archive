@@ -1,8 +1,8 @@
 #!/usr/bin/perl
 
-use lib "/var/www/html/lib/int/";
-use lib "/var/www/html/lib/ext/";
-use lib "/var/www/html/corelib/";
+use lib "{{ bbric_archive_root_dir }}/lib/int/";
+use lib "{{ bbric_archive_root_dir }}/lib/ext/";
+use lib "{{ bbric_archive_root_dir }}/corelib/";
 
 use strict;
 use warnings;
@@ -70,6 +70,6 @@ sub DBH
 {
 	my $db = shift;
 
-	my $dbh = DBI->connect("dbi:Pg:database={{ db_name }};host={{ db_host }};port={{ db_port }}", {{ db_user }}, {{ db_password }} ) or Carp::croak("Connexion to {{ db_name }} failed");
+	my $dbh = DBI->connect("dbi:Pg:database={{ db_name }};host={{ db_host }};port={{ db_port }}", {{ db_username }}, {{ db_password }} ) or Carp::croak("Connexion to {{ db_name }} failed");
 	return $dbh;
 }
