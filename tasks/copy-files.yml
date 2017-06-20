@@ -4,7 +4,7 @@
 # Create bbric archive files directory.
 - name: Create bbric archive files directory.
   file:
-    path: /opt/bbric-archive
+    path: "{{ bbric_archive_opt }}"
     state: directory
     mode: 0660
     owner: root
@@ -13,16 +13,23 @@
 # Copy patches into bbric archive files directory.
 - name: Copy patches into bbric archive files directory.
   copy:
-    src: files/patches
-    dest: /opt/bbric-archive
-    mode: 0660
-    owner: root
-    group: root
+    src: "{{ role_path }}/files/patches"
+    dest: "{{ bbric_archive_opt }}/"
+- name: Find patches after copy.
+  find:
+    path: "{{ bbric_archive_opt }}/patches"
+    patterns: "*.patch"
+  register: patch_copies 
+- name: Check patches present after copy.
+  file:
+    path: "{{ item.path }}"
+    state: file
+  with_items: "{{ patch_copies.files }}"
 
 # Deploy miniclient.pl template into bbric archive files directory.
 - name: Create miniclient directory into bbric archive files directory. 
   file: 
-    path: /opt/bbric-archive/miniclient
+    path: "{{ bbric_archive_opt}}/miniclient"
     state: directory
     mode: 0660
     owner: root
@@ -31,7 +38,7 @@
 - name: Copy miniclient.pl into bbric archive files directory.
   template:
     src: templates/miniclient/miniclient.pl.j2
-    dest: /opt/bbric-archive/miniclient/miniclient.pl
+    dest: "{{ bbric_archive_opt }}/miniclient/miniclient.pl"
     owner: root
     group: root
     mode: '0750'    
