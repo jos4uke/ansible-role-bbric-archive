@@ -6,6 +6,7 @@ bbric_archive_svn_repo: "http://lipm-svn.toulouse.inra.fr/svn/inra_archive/tags/
 bbric_archive_root_dir: "/var/www/html"
 bbric_archive_apache_home_dir: "/var/html"
 
+bbric_archive_opt: "/opt/bbric-archive"
 bbric_archive_patch_findbin: "findbin.patch"
 bbric_archive_patch_fix_auth: "fix_auth.patch"
 bbric_archive_ext_ftp: "0"
