@@ -2,5 +2,5 @@
 #syntax:
 #ip       hostname[:/export/mount/point]        alias1 alias2
 {% for host in bbric_archive_externaltool_hosts_entries %}
-{{ host.ip }}   {{ host.name }}{% if host.mount is defined %}:{{ host.mount | default('') }}{% endif %}    {{ host.aliases|join(" ") }}
+{{ host.ip }}   {{ host.name }}{% if host.mount is defined %}:{{ host.mount | default('') }}{% endif %}    {% if host.aliases is defined %}{{ host.aliases|join(" ") }}{% endif %}
 {% endfor %}
