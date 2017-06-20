@@ -1,0 +1,16 @@
+---
+# This playbook deploys postgresql server and archive app database and user
+
+- hosts: dbservers
+  become: yes
+  tasks:
+    - name: install sudo apt package
+      apt: name=sudo state=installed
+
+- hosts: dbservers
+  #  become: yes
+  vars_files:
+    - test_vars.yml 
+  roles:
+    - role: geerlingguy.postgresql
+      become: yes
