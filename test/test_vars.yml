@@ -1,0 +1,50 @@
+# postgresql
+postgresql_databases:
+  - name: postgres
+    owner: postgres
+    encoding: SQL_ASCII
+    lc_collate: C
+    lc_ctype: C
+postgresql_users:
+  - name: postgres
+    password: postgres
+postgresql_global_config_options:
+  - option: listen_addresses
+    value: '*'
+postgresql_hba_entries:
+  - { type: local, database: all, user: postgres, auth_method: peer }
+  - { type: local, database: all, user: all, auth_method: peer }
+  - { type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5 }
+  - { type: host, database: all, user: all, address: '::1/128', auth_method: md5 }
+  - { type: host, database: all, user: all, address: "0.0.0.0/0" , auth_method: md5 }
+
+# elasticsearch
+elasticsearch_host: elasticsearch
+elasticsearch_ip: 172.17.0.3
+
+# apache2 web
+web_host: "{{ inventory_hostname }}"
+apache_listen_ip: "localhost, {{ web_host }}"
+apache_listen_port: 5000
+apache_create_vhosts: true
+apache_vhosts_filename: "vhosts.conf"
+apache_vhosts_template: "vhosts.conf.j2"
+apache_remove_default_vhost: true
+apache_global_vhost_settings: |
+  DirectoryIndex index.php index.html
+apache_vhosts:
+  # Additional optional properties: 'serveradmin, serveralias, extra_parameters'.
+  - servername: "{{ web_host }}"
+    documentroot: "/var/www/html"
+apache_mods_enabled:
+  - rewrite.load
+apache_mods_disabled:
+  - deflate.load
+apache_state: started
+
+# archive
+elastic_host: "{{ elasticsearch_ip }}" 
+bbric_archive_http_url: "http://{{ inventory_hostname }}:5000"
+bbric_archive_http_root: "archive"
+bbric_archive_title: "BBRIC Archive"
+

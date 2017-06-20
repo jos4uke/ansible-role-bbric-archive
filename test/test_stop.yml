@@ -6,6 +6,10 @@
     inventory:
       - name: archive
         image: debian:jessie
+      - name: postgres
+        image: debian:jessie
+      - name: elasticsearch
+        image: debian:jessie
   tasks:
     - name: Assert docker container is present
       docker_container:
