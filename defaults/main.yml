@@ -67,7 +67,7 @@ bbric_archive_client_template: "miniclient.pl.j2"
 #Elastic Search
 ## user and password are required if your Elastic cluster is behind a protected proxy (with htaccess)
 elastic_host: "elasticsearch"
-elastic_url: "http://{{ elasticsearch_host }}:9200"
+elastic_url: "http://{{ elastic_host }}:9200"
 elastic_index: "archive"
 elastic_user: "useless"
 elastic_password: "useless"

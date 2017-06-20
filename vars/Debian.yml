@@ -25,6 +25,7 @@ __deps_packages:
   - bzip2
   - sqlite3
   - cron
+  - wget
 
 build_deps: build-essential
 
