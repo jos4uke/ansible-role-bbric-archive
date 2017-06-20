@@ -1,0 +1,9 @@
+---
+# Add cron job for miniclient.pl script.
+
+# Create cron job for miniclient.pl script.
+- name: "Create cron job for {{ bbric_archive_client_filename }} script."
+  cron:
+    name: "create symlinks to archive data every hour"
+    minute: "0"
+    job: "(bash -lc 'perl {{ bbric_archive_opt }}/miniclient/{{ bbric_archive_client_filename }}') >> /var/log/archive_miniclient.log 2>&1"
