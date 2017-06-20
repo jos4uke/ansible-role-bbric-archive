@@ -35,3 +35,6 @@
 # download and reconfigure BBRIC Archive.
 - include: "download-reconfigure-bbric-archive-{{ ansible_os_family }}.yml"
   static: no
+# apache configuration.
+- include: "apache-config-{{ ansible_os_family }}.yml"
+  static: no

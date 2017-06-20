@@ -1,0 +1,22 @@
+---
+# apache configuration
+
+# Overwrite bbric archive apache config.
+- name: Overwrite bbric archive apache config.
+  template:
+    src: "templates/archive/site/cfg/{{ bbric_archive_cfg_apache_template }}"
+    dest: "{{ bbric_archive_root_dir }}/site/cfg/{{ bbric_archive_cfg_apache_filename }}"
+
+# Update bbric archive config with incoming http path.
+- name: Update bbric archive config with incoming http path.
+  lineinfile:
+    path: "{{ bbric_archive_root_dir }}/site/cfg/archive.cfg"
+    state: present
+    insertafter: 'incoming_tmp_dir={{ bbric_archive_incoming_http_tmp }}'
+    line: 'incoming_http_path={{ bbric_archive_incoming_http }}'
+
+# Deploy bbric archive apache conf.
+- name: Deploy bbric archive apache conf.
+  template:
+    src: "templates/apache/{{ bbric_archive_apache_conf_template }}"
+    dest: "/etc/apache2/conf-enabled/{{ bbric_archive_apache_conf_filename }}"
