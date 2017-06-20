@@ -51,13 +51,13 @@
 # Overwrite install configuration files.
 - name: Overwrite install.cfg configuration file.
   template:
-    src: templates/archive/site/cfg/install.cfg.j2
-    dest: "{{ bbric_archive_root_dir }}/site/cfg/install.cfg"
+    src: "templates/archive/site/cfg/{{ bbric_archive_cfg_install_template }}"
+    dest: "{{ bbric_archive_root_dir }}/site/cfg/{{ bbric_archive_cfg_install_filename }}"
 
 - name: Overwrite externaltool.hosts configuration file.
   template:
-    src: templates/archive/site/cfg/externaltool.hosts.j2
-    dest: "{{ bbric_archive_root_dir }}/site/cfg/externaltool.hosts"
+    src: "templates/archive/site/cfg/{{ bbric_archive_cfg_exttools_hosts_template }}"
+    dest: "{{ bbric_archive_root_dir }}/site/cfg/{{ bbric_archive_cfg_exttools_hosts_filename }}"
  
 # Ensure permissions
 - name: Ensure www-data as the bbric archive owner
