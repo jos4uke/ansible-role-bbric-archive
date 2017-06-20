@@ -31,3 +31,7 @@
 # copy files.
 - include: "copy-files.yml"
   static: no
+
+# download and reconfigure BBRIC Archive.
+- include: "download-reconfigure-bbric-archive-{{ ansible_os_family }}.yml"
+  static: no

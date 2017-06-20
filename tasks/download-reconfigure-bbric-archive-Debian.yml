@@ -1,0 +1,73 @@
+---
+# Install BBRIC Archive.
+
+# Sync BBRIC Archive svn repository.  
+- name: Sync BBRIC Archive svn repository.
+  subversion:
+    repo: "http://lipm-svn.toulouse.inra.fr/svn/inra_archive/tags/archive_v{{ bbric_archive_version }}"
+    dest: "{{ bbric_archive_root_dir }}"
+    export: yes
+    force: yes
+
+# Remove unnecessary directories.
+- name: 'Remove unnecessary directories: .svn.'
+  file:
+    path: "{{ bbric_archive_root_dir }}/.svn"
+    state: absent
+
+- name: 'Remove unnecessary directories: doc.'
+  file:
+    path: "{{ bbric_archive_root_dir }}/doc"
+    state: absent
+
+# Apply patches.
+- name: Apply findbin patch.
+  patch:
+    src: "{{ bbric_archive_opt }}/patches/{{ bbric_archive_patch_findbin }}"
+    basedir: "{{ bbric_archive_root_dir }}"
+    strip: 1
+    remote_src: yes
+
+- name: Apply ext_ftp patch.
+  patch:
+    src: "{{ bbric_archive_opt }}/patches/{{ bbric_archive_patch_ext_ftp }}"
+    basedir: "{{ bbric_archive_root_dir }}"
+    strip: 1
+    remote_src: yes
+
+- name: Apply fix_auth patch.
+  patch:
+    src: "{{ bbric_archive_opt }}/patches/{{ bbric_archive_patch_fix_auth }}"
+    basedir: "{{ bbric_archive_root_dir }}"
+    strip: 1
+    remote_src: yes
+
+# Clone ezlastic tools.
+- name: Clone ezlastic tools.
+  git:
+    repo: "{{ bbric_ezlastic_git_repo }}"
+    dest: "{{ bbric_archive_root_dir }}/bin/ext/ezlastic"
+
+# Overwrite install configuration files.
+- name: Overwrite install.cfg configuration file.
+  template:
+    src: templates/archive/site/cfg/install.cfg.j2
+    dest: "{{ bbric_archive_root_dir }}/site/cfg/install.cfg"
+
+- name: Overwrite externaltool.hosts configuration file.
+  template:
+    src: templates/archive/site/cfg/externaltool.hosts.j2
+    dest: "{{ bbric_archive_root_dir }}/site/cfg/externaltool.hosts"
+ 
+# Ensure permissions
+- name: Ensure www-data as the bbric archive owner
+  file:
+    path: "{{ bbric_archive_root_dir }}"
+    state: directory
+    owner: www-data
+
+# Install BBRIC Archive although tests are expected to fail.
+- name: Install BBRIC Archive although tests are expected to fail.
+  command: "{{ bbric_archive_root_dir }}/install.pl"
+  ignore_errors: yes
+
