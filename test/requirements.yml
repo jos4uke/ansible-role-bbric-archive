@@ -1,2 +1,9 @@
 - src: chrismeyersfsu.provision_docker
   name: provision_docker
+- src:  https://github.com/geerlingguy/ansible-role-postgresql.git
+  name: geerlingguy.postgresql
+- src: https://github.com/elastic/ansible-elasticsearch.git
+  name: elasticsearch
+  version: 2.x
+- src: https://github.com/geerlingguy/ansible-role-apache.git
+  name: geerlingguy.apache
