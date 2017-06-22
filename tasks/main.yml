@@ -43,3 +43,7 @@
 # setup miniclient cron job.
 - include: "cron-miniclient-{{ ansible_os_family }}.yml"
   static: no
+
+# archive database configuration.
+- include: "archive-database-config-{{ ansible_os_family }}.yml"
+  static: no
