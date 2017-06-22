@@ -3,7 +3,7 @@
 
 # Test archive database connectivity. 
 - name: Test archive database connectivity.
-  shell: "PGPASSWORD={{ db_password }}" psql -U "{{ db_username }}" -h "{{ db_host }}" -p "{{ db_port }}" -l >/dev/null 2>&1
+  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -h {{ db_host }} -p {{ db_port }} -l >/dev/null 2>&1"
   register: database_connect
   until: database_connect.rc == 0
   retries: 10
@@ -11,11 +11,12 @@
 
 # Test if archive database postgres schema is present.
 - name: Test if archive database postgres schema is present.
-  shell: "PGPASSWORD={{ db_password }}" psql -U "{{ db_username }}" -h "{{ db_host }}" -p "{{ db_port }}" "{{ db_name }}" -tAc "SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'archive_user');"
+  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -h {{ db_host }} -p {{ db_port }} {{ db_name }} -tAc 'SELECT EXISTS (SELECT 1 FROM information_schema.tables WHERE table_name = 'archive_user');'"
   register: postgres_schema
+  ignore_errors: yes
   when: database_connect.rc == 0
 
 # Load archive postgres schema when database connectable and schema not present.
 - name: Load archive postgres schema when database connectable and schema not present.
-  shell: "PGPASSWORD={{ db_password }}" psql -U "{{ db_username }}" -h "{{ db_host }}" -p "{{ db_port }}" "{{ db_name }}" < "{{ bbric_archive_root_dir }}/site/sql/archive.v2.sql"
+  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -h  {{ db_host }} -p {{ db_port }} {{ db_name }} < {{ bbric_archive_root_dir }}/site/sql/archive.v2.sql"
   when: postgres_schema.stdout != 't'
