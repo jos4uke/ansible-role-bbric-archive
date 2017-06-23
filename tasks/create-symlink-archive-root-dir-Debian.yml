@@ -1,0 +1,32 @@
+---
+# Create symlink to archive http root in archive root directory.
+- name: Create symlink to archive http root in archive root directory.
+  block:
+    - name: test archive http root value.
+      shell: "[[ {{ bbric_archive_http_root }} != '' ]] && [[ ! -L ./{{ bbric_archive_http_root }} ]]"
+      register: archive_http_root_tests
+      args:
+        chdir: "{{ bbric_archive_root_dir }}" 
+        executable: /bin/bash
+    - name: basedir archive http root.
+      shell: "[[ ./{{ bbric_archive_http_root | dirname }} != '.' ]]"
+      register: archive_http_root_basedir
+      args:
+        chdir: "{{ bbric_archive_root_dir }}"
+        executable: /bin/bash
+    - name: create archive http root base directory.
+      file:
+        path: "{{ bbric_archive_root_dir }}/{{ bbric_archive_http_root | dirname }}"
+        state: directory
+        mode: 0775
+        owner: www-data
+      when: archive_http_root_tests.rc == 0 and archive_http_root_basedir.rc == 0
+    - name: create symlink to archive http root.
+      file:
+        src: "{{ bbric_archive_root_dir }}"
+        dest: "{{ bbric_archive_root_dir }}/{{ bbric_archive_http_root }}"
+        state: link
+        owner: www-data
+      when: archive_http_root_tests.rc == 0
+  when: ansible_distribution == 'Debian'
+  become: true

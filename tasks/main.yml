@@ -51,6 +51,11 @@
 # init archive sequence index.
 - include: "init-archive-elastic-seq-index-{{ ansible_os_family }}.yml"
   static: no
+
 # setup archive storage directories.
 - include: "setup-archive-storage-directories-{{ ansible_os_family }}.yml"
+  static: no
+
+# create symlink to archive_root_dir
+- include: "create-symlink-archive-root-dir-{{ ansible_os_family }}.yml"
   static: no
