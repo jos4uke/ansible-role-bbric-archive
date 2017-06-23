@@ -1,0 +1,15 @@
+---
+# This playbook deploys ssmtp server for archive app
+
+- hosts: smtpservers
+  become: yes
+  vars_files:
+    - test_vars.yml
+  roles:
+    - { role: ssmtp-role }
+  vars:
+    ssmtp_mailhub_host: "smtp.u-psud.fr"
+    ssmtp_mailhub_port: 25
+    ssmtp_starttls: "YES"
+    ssmtp_docker_host: "yes"
+    ssmtp_hostname: "{{ inventory_hostname }}"

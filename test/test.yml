@@ -29,6 +29,7 @@
         groups:
           - archiveservers
           - webservers
+          - smtpservers
         links:
           - postgres:postgres
           - elasticsearch:elasticsearch
@@ -58,12 +59,11 @@
 #- include: esservers.yml
 # apache2 web servers
 - include: webservers.yml
-
+# ssmtp servers
+- include: smtpservers.yml
+ 
 # Install BBRIC Archive
 #- name: Deploy BBRIC Archive
 #  hosts: archiveservers
 #  roles:
 #    - role: role-bbric-archive
-
-
-
