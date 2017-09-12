@@ -22,11 +22,10 @@
         owner: www-data
       when: archive_http_root_tests.rc == 0 and archive_http_root_basedir.rc == 0
     - name: create symlink to archive http root.
-      file:
-        src: "{{ bbric_archive_root_dir }}"
-        dest: "{{ bbric_archive_root_dir }}/{{ bbric_archive_http_root }}"
-        state: link
-        owner: www-data
+      shell: "ln -s . {{ bbric_archive_http_root }}"
+      args:
+        chdir: "{{ bbric_archive_root_dir }}" 
+        executable: /bin/bash
       when: archive_http_root_tests.rc == 0
   when: ansible_distribution == 'Debian'
   become: true
