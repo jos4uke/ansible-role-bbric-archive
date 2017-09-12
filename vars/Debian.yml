@@ -1,0 +1,53 @@
+---
+__deps_packages:
+  - libapache2-mod-perl2
+  - postgresql-client-9.4
+  - curl
+  - file
+  - libdbi-perl
+  - libdbd-pg-perl
+  - tree
+  - libxml-twig-perl
+  - libjson-perl
+  - xsltproc
+  - libconvert-uulib-perl
+  - at
+  - liblog-log4perl-perl
+  - liblog-dispatch-filerotate-perl
+  - nano
+  - subversion
+  - git
+  - patch
+  - libxml2-utils
+  - ssmtp 
+  - mailutils
+  - xz-utils
+  - bzip2
+  - sqlite3
+  - cron
+  - wget
+
+build_deps: build-essential
+
+__perl_modules:
+  - Convert::UU
+  - Test::More
+  - JSON
+  - Proc::ProcessTable
+  - Apache::Session::File
+  - Net::LDAP
+  - WWW::Mechanize
+  - Log::Log4perl
+  - Log::Dispatch::FileRotate
+  - DBI
+  - DBD::Pg
+  - XML::Simple
+  - XML::Parser
+  - XML::Twig
+  - JSON::Any
+  - YAML
+  - Error
+  - Text::ASCIITable
+  - Text::Table
+  - DBD::SQLite
+  - IO::Prompt

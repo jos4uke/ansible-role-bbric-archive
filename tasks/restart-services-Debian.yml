@@ -1,0 +1,14 @@
+---
+# Restart services on Debian
+
+# restart cron service.
+- name: restart cron service.
+  service:
+    name: cron
+    state: restarted
+
+# restart apache2 service.
+- name: restart apache2 service.
+  service:
+    name: apache2
+    state: restarted

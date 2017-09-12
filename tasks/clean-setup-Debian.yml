@@ -1,0 +1,10 @@
+---
+- name: Clean up setup of dependency packages unused on Debian.
+  command: "apt-get purge -y --auto-remove -o APT::AutoRemove::RecommendsImportant=false -o APT::AutoRemove::SuggestsImportant=false {{ build_deps }}"
+  register: purge_autoremove_output
+  changed_when: "'The following packages will be REMOVED' in purge_autoremove_output.stdout" 
+
+- name: Remove apt sources lists.
+  command: "rm -rf /var/lib/apt/lists/*"
+  register: remove_apt_lists_output
+  failed_when: "remove_apt_lists_output.rc > 0"

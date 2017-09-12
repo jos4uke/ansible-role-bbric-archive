@@ -1,0 +1,97 @@
+--- a/corelib/Authentic/ShibLdap.pm	2016-10-04 09:49:43.097744877 +0000
++++ b/corelib/Authentic/ShibLdap.pm	2016-10-04 10:15:51.730780823 +0000
+@@ -243,8 +243,18 @@
+ 	}
+ 	elsif ( defined $ENV { HTTP_REMOTE_USER } )
+ 	{
++                # Env variables are HTTP_ . upper-cased of attribute !
++                $login_attribute = 'HTTP_' . uc($login_attribute);
++                $login       = $ENV { $login_attribute };
++                $email       = $ENV { HTTP_MAIL };
++                $common_name= $ENV { HTTP_CN };
++                $identity_provider = $ENV { HTTP_SHIB_IDENTITY_PROVIDER };
++                $eppn        = $ENV { HTTP_EPPN } if (exists $ENV{ HTTP_EPPN });
++	}
++	elsif ( defined $ENV { HTTP_MAIL } )
++	{
+ 		# Env variables are HTTP_ . upper-cased of attribute !
+-		$login_attribute = 'HTTP_' . uc($login_attribute);
++		$login_attribute = 'HTTP_MAIL';
+ 		$login       = $ENV { $login_attribute };
+ 		$email       = $ENV { HTTP_MAIL };
+ 		$common_name= $ENV { HTTP_CN };
+@@ -462,7 +472,9 @@
+ 			}
+ 	
+ 			$self->_Trace("Starting __AuthenticateFromProviderId: redirecting to $redirect_url\n");
+-			print redirect($redirect_url);
++			my $o_cgi   = new CGI;
++			print $o_cgi->header(-location => $redirect_url);
++			exit;
+ 		}
+ 		return &TRUE;
+ 	}
+@@ -532,8 +544,12 @@
+ 
+ 		$self->SUPER::Logout();
+ 		$shib_url .= "?return=$return_url";
+-		print redirect($shib_url);
++		#print redirect($shib_url);
++		my $o_cgi   = new CGI;
++		print $o_cgi->header(-location => $shib_url);
++		exit;
+ 	}
+ }
+ 
+ 1;
++
+--- a/lib/int/common.pl	2016-12-06 14:53:17.554623771 +0000
++++ b/lib/int/common.pl	2016-12-06 14:57:57.435607361 +0000
+@@ -140,7 +140,7 @@
+ 
+ 	my $mail_cmd = "$mail_prog  -a \"Content-Type: text/plain; charset=UTF-8\" -s \"$subject\" ";
+ 
+-	$mail_cmd .= ' -c ' . join( ',', @$ra_ccvalid ) if ( defined $cc );
++	$body = '~c ' . join( ',', @$ra_ccvalid ) . "\n" . $body if ( defined $cc );
+ 	$mail_cmd .= ' ' . join( ',', @$ra_valid );
+ 
+ 	open( MAIL, "| $mail_cmd" ) || ExtJsCallback( "$mail_cmd : $!", 'false' );
+#--- a/web/js/int/extjs/classes/view/metadataform/V_FtpFileCombo.js	2016-12-21 13:14:20.213845372 +0000
+#+++ a/web/js/int/extjs/classes/view/metadataform/V_FtpFileCombo.js	2016-12-21 13:13:59.942565884 +0000
+#@@ -12,12 +12,11 @@
+#     displayField: 'name',
+#     valueField: 'name',
+#     labelSeparator : "",
+#-    enableKeyEvents:true,
+#     
+#     forceSelection : true,
+#     emptyText : "Select file in your repository",
+#     
+#-    width : 1100,
+#+    width : 700,
+# 
+# 			listConfig : {
+# 				getInnerTpl : function() {
+#--- a/web/index.html	2016-12-21 13:11:35.742578036 +0000
+#+++ b/web/index.html	2016-12-21 13:11:19.234350498 +0000
+#@@ -14,7 +14,7 @@
+# 	href="css/archive-theme/archive-theme-all.css" />
+# <link rel="stylesheet" type="text/css" href="css/archive.css" />
+# 
+#-<script type="text/javascript" src="js/ext/ext-all.js"></script>
+#+<script type="text/javascript" src="js/ext/ext-all-debug.js"></script>
+# 
+# <script type="text/javascript" src="js/int/extjs/app.js"></script>
+# 
+--- a/lib/int/externaltools.pl	2016-11-21 10:26:27.442854600 +0000
++++ b/lib/int/externaltools.pl	2016-11-21 10:29:45.643732877 +0000
+@@ -312,6 +312,8 @@
+     $fh_in_host_file->close;
+ 
+     my $ip = $ENV{'HTTP_X_FORWARDED_FOR'};
++    my @a_ip = split(/,?\s+/, $ip);
++    $ip = $a_ip[0];
+ 
+     $LOGGER->debug("ExternalToolAuthentication: $host_file, $ip");
+     &ExternalToolError("ERROR - ExternalToolAuthentication: externaltool.hosts not found or empty")
+

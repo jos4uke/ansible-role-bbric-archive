@@ -1,2 +1,84 @@
 ---
 # defaults file for ansible-role-bbric-archive
+
+bbric_archive_version: "2.0"
+bbric_archive_svn_repo: "http://lipm-svn.toulouse.inra.fr/svn/inra_archive/tags/archive_v{{ bbric_archive_version }}"
+bbric_archive_root_dir: "/var/www/html"
+bbric_archive_apache_home_dir: "/var/html"
+
+bbric_archive_opt: "/opt/bbric-archive"
+bbric_archive_patch_findbin: "findbin.patch"
+bbric_archive_patch_fix_auth: "fix_auth.patch"
+bbric_archive_ext_ftp: "0"
+bbric_archive_patch_ext_ftp: "ext_ftp.patch"
+
+bbric_archive_cfg_install_filename: "install.cfg"
+bbric_archive_cfg_install_template: "install.cfg.j2"
+bbric_archive_cfg_exttools_hosts_filename: "externaltool.hosts"
+bbric_archive_cfg_exttools_hosts_template: "externaltool.hosts.j2"
+bbric_archive_cfg_apache_filename: "apache.cfg"
+bbric_archive_cfg_apache_template: "apache.cfg.j2"
+
+bbric_archive_apache_conf_filename: "archive.conf"
+bbric_archive_apache_conf_template: "archive.conf.j2"
+
+bbric_archive_externaltool_hosts_entries:
+  - { ip: 147.99.102.20, name: bbric-pipelines.toulouse.inra.fr }
+  - { ip: 131.254.158.22, name: bipaa-galaxy.genouest.org }
+  - { ip: 192.168.1.169, name: bipaa-galaxy.genouest.org }
+  - { ip: 192.168.1.170, name: bipaa-galaxy.genouest.org }
+  - { ip: 192.168.1.195, name: dev-galaxy.genouest.org }
+  - { ip: 172.2.22.79, name: example.org, mount: "/export/data", aliases: { example1.org, example2.org } }
+
+#You will access to your portal using a URL = web_server.http_root
+##Example: https://your.web.server/apache/root
+bbric_archive_http_url: "http://localhost:5000"
+bbric_archive_http_root: "archive"
+bbric_archive_title: "BBRIC Archive"
+bbric_archive_admins: "someone@example.org,somebody@example.org"
+
+#FTP server Name and Port
+bbric_archive_ftp: "your.ftp.site"
+bbric_archive_ftp_port: "21"
+#FTP Group Name (www-data MUST be in this group and stickybit added to ftp_repository_path)
+bbric_archive_ftp_group: "archiveftp"
+#Restrict FTP account creation to a list of institutes (identified by their Shibboleth EPPN)
+## --> empty = no restriction
+bbric_archive_ftp_eppn_restriction_regexp: "inra.fr"
+
+#iRODS
+# IRODS root or fix path to your collection rawfiles repository
+bbric_archive_irods_repo: "/store"
+bbric_archive_irods_bin_path: "irods_command_binary_path"
+bbric_archive_irods_repo_type: "UNIX"
+
+# Full path to your collection rawfiles repository
+bbric_archive_rawfiles_repo: "/data"
+bbric_archive_client_mountpoint: "/data/store"
+bbric_archive_client_symlinks_dir: "/data/client"
+bbric_archive_incoming_ftp: "/data/ftp"
+bbric_archive_incoming_http: "/data/http"
+bbric_archive_incoming_http_tmp: "/data/http_tmp"
+
+# miniclient
+bbric_archive_client_filename: "miniclient.pl"
+bbric_archive_client_template: "miniclient.pl.j2"
+
+#Elastic Search
+## user and password are required if your Elastic cluster is behind a protected proxy (with htaccess)
+elastic_host: "elasticsearch"
+elastic_url: "http://{{ elastic_host }}:9200"
+elastic_index: "archive"
+elastic_user: "useless"
+elastic_password: "useless"
+
+#PostgreSQL connection
+db_name: "postgres"
+db_host: "postgres"
+db_port: "5432"
+db_username: "postgres"
+db_password: "postgres"
+
+#Archive deps packages state; use `installed` to make sure it's installed, or `latest` if
+# you want to upgrade or switch versions using a new repo.
+deps_packages_state: installed

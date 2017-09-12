@@ -1,0 +1,6 @@
+[submodule "test/roles/provision_docker"]
+	path = test/roles/provision_docker
+	url = https://github.com/chrismeyersfsu/provision_docker.git
+[submodule "test/roles/elasticsearch"]
+	path = test/roles/elasticsearch
+	url = https://github.com/elastic/ansible-elasticsearch.git

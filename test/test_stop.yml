@@ -1,0 +1,26 @@
+---
+# After reviewing the test and its containers, stop the containers to complete the test
+- name: Bring down docker containers 
+  hosts: localhost
+  vars:
+    inventory:
+      - name: archive
+        image: debian:jessie
+      - name: postgres
+        image: debian:jessie
+      - name: elasticsearch
+        image: debian:jessie
+  tasks:
+    - name: Assert docker container is present
+      docker_container:
+        name: "{{ item.name }}"
+        image: "{{ item.image }}"
+        state: present
+        command: sleep infinity
+      with_items: "{{ inventory }}"
+
+    - name: Stop docker container  
+      docker_container:
+        name: "{{ item.name }}"
+        state: stopped
+      with_items: "{{ inventory }}"

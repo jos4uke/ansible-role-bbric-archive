@@ -1,0 +1,17 @@
+---
+# This playbook deploys apache2 server for archive app
+
+- hosts: webservers
+  become: yes
+  vars_files:
+    - test_vars.yml
+  roles:
+    - { role: geerlingguy.apache }
+
+# Install BBRIC Archive
+- name: Deploy BBRIC Archive
+  hosts: archiveservers
+  vars_files:
+    - test_vars.yml
+  roles:
+    - role: role-bbric-archive

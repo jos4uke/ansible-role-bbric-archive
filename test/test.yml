@@ -1,0 +1,70 @@
+---
+# test bbric archive role in docker
+
+- name: Bring up docker container
+  hosts: localhost
+  vars:
+    nw_name: bridge
+    inventory:
+      - name: postgres
+        image: "debian:jessie"
+        groups:
+          - dbservers
+        expose: "5432"
+        networks:
+          - name: "{{ nw_name }}"
+          - ipv4_address: 172.17.0.2
+      - name: elasticsearch
+        image: "elasticsearch:2.4.4"
+        groups:
+          - esservers
+        networks:
+          - name: "{{ nw_name }}"
+          - ipv4_address: 172.17.0.3
+        env:
+          http.host: 172.17.0.3
+          transport.host: 172.17.0.3
+      - name: archive
+        image: "debian:jessie"
+        groups:
+          - archiveservers
+          - webservers
+          - smtpservers
+        links:
+          - postgres:postgres
+          - elasticsearch:elasticsearch
+        expose: "80"
+        ports: "0.0.0.0:5000:80"
+        networks:
+          - name: "{{ nw_name }}"
+          - ipv4_address: 172.17.0.4
+  roles:
+    - role: provision_docker
+      provision_docker_privileged: true
+      #provision_docker_inventory_group: "{{ groups['servers'] }}"
+      provision_docker_inventory: "{{ inventory }}"
+      provision_docker_use_docker_connection: true
+
+- name: Install ansible managed host deps
+  hosts: docker_containers
+  gather_facts: false
+  tasks:
+    - name: Install python2 deps for Ansible
+      raw: bash -c "test -e /usr/bin/python || (apt-get -qqy update && apt-get install -qqy python-minimal python-simplejson python-apt)"
+      register: install_python_output
+      changed_when: install_python_output != ""
+
+# postgresql servers
+- include: dbservers.yml
+# elasticsearch servers
+#- include: esservers.yml
+# apache2 web servers
+- include: webservers.yml
+# ssmtp servers
+- include: smtpservers.yml
+ 
+# Install BBRIC Archive
+#- name: Deploy BBRIC Archive
+#  hosts: archiveservers
+#  roles:
+#    - role: role-bbric-archive

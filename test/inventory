@@ -1,0 +1,23 @@
+# inventory
+localhost ansible_connection=local ansible_python_interpreter=/home/jtran1-loc/miniconda3/envs/ansible/bin/python
+
+#[servers]
+#
+#[archiveservers]
+#archive image="debian:jessie" links=postgres
+#
+#[dbservers]
+#postgres image="debian:jessie"
+#
+#[esservers]
+#elasticsearch image="elasticsearch:2.4.4"
+#
+#[webservers]
+#
+#[webservers:children]
+#archiveservers
+#
+#[servers:children]
+#dbservers
+#esservers
+#webservers

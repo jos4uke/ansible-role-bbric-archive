@@ -1,0 +1,34 @@
+---
+# Setup archive storage directories.
+
+# Create archive storage directory: client_mountpoint.
+- name: Create archive storage directory client_mountpoint.
+  file:
+    path: "{{ bbric_archive_client_mountpoint }}/"
+    state: directory
+    mode: 0770
+    owner: www-data
+
+# Create archive storage directory: incoming_http.
+- name: Create archive storage directory incoming_http.
+  file:
+    path: "{{ bbric_archive_incoming_http }}/"
+    state: directory
+    mode: 0770
+    owner: www-data
+
+# Create archive storage directory: incoming_http_tmp.
+- name: Create archive storage directory incoming_http_tmp.
+  file:
+    path: "{{ bbric_archive_incoming_http_tmp }}/"
+    state: directory
+    mode: 0770
+    owner: www-data
+
+# Create archive storage directory: incoming_ftp.
+- name: Create archive storage directory incoming_ftp.
+  file:
+    path: "{{ bbric_archive_incoming_ftp }}/"
+    state: directory
+    mode: 0770
+    owner: www-data
