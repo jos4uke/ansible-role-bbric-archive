@@ -59,3 +59,11 @@
 # create symlink to archive_root_dir
 - include: "create-symlink-archive-root-dir-{{ ansible_os_family }}.yml"
   static: no
+
+# ensure permissions on archive root directory
+- include: "ensure-permissions-archive-root-dir-{{ ansible_os_family }}.yml"
+  static: no
+
+# restart services
+- include: "restart-services-{{ ansible_os_family }}.yml"
+  static: no
