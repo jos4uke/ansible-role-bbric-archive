@@ -3,7 +3,7 @@
 
 # Test elasticsearch connectivity.
 - name: Test elasticsearch connectivity.
-  shell: curl -XGET "{{ elastic_url }}/" >/dev/null 2>&1
+  shell: curl -XGET {{ elastic_url }}/ >/dev/null 2>&1
   register: elastic_connect
   until: elastic_connect.rc == 0
   retries: 20
@@ -11,5 +11,5 @@
 
 # Create archive elasticsearch sequence index if don't exist yet.
 - name: Create archive elasticsearch sequence index if don't exist yet.
-  shell: curl -XPUT "{{ elastic_url }}/archive" 2>&1
+  shell: curl -XPUT {{ elastic_url }}/archive 2>&1
   when: elastic_connect.rc == 0
