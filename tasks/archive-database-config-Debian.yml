@@ -3,7 +3,7 @@
 
 # Test archive database connectivity. 
 - name: Test archive database connectivity.
-  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -h {{ db_host }} -p {{ db_port }} -l >/dev/null 2>&1"
+  shell: "PGPASSWORD={{ db_password }} psql -U {{ db_username }} -h {{ db_host }} -p {{ db_port }} {{ db_name }} -l >/dev/null 2>&1"
   register: database_connect
   until: database_connect.rc == 0
   retries: 10
