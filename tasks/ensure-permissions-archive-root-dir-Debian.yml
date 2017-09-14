@@ -4,4 +4,5 @@
   file:
     path: "{{ bbric_archive_root_dir }}"
     state: directory
+    recurse: yes
     owner: www-data
