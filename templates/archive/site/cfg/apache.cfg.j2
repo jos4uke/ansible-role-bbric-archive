@@ -44,7 +44,7 @@ SetEnvIf Request_URI "^/{{ bbric_archive_http_root }}/?.*$" HOME={{ bbric_archiv
 
 Alias "/{{ bbric_archive_http_root }}/site/tmp" {{ bbric_archive_root_dir }}/site/tmp
 ScriptAlias "/{{ bbric_archive_http_root }}/cgi" "{{ bbric_archive_root_dir }}/cgi"
-RedirectMatch "^/{{ bbric_archive_http_root }}/$" "{{ bbric_archive_http_url }}{{ bbric_archive_http_root }}/web/index.html"
+RedirectMatch "^/{{ bbric_archive_http_root }}/$" "{{ bbric_archive_http_url }}/{{ bbric_archive_http_root }}/web/index.html"
 
 
 <Directory {{ bbric_archive_root_dir }}>
